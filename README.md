@@ -19,7 +19,7 @@ This repository contains code and resources for solving the *Former* game (NRK, 
 * pybind11
 
 ## Setup
-If not already done, clone / download the repository by opening up Terminal / PowerShell and running 
+If not already done, clone the repository by opening up a terminal and running 
 ```bash
 git clone https://github.com/espenurheim/FormerMSc.git
 cd FormerMSc

@@ -8,7 +8,7 @@ This file contains the code to run our Former GUI. For it to run, the following 
 The game can be played on any of the 100 boards in the daily_boards.pkl file, or on a custom board.
 """
 
-from GUI_functions import select_board, play_game
+from Former.GUI_functions import select_board, play_game
 import numpy as np
 
 if __name__ == "__main__":

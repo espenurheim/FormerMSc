@@ -51,9 +51,10 @@ source venv/bin/activate     # macOS/Linux
 ### 3. Building the C++ game implementation extension
 
 ```bash
-cd Cpp_code
+cd Former/Cpp_code
 python setup.py build_ext --inplace
-cd -
+cd ..
+cd ..
 ```
 
 ### 4. Running the GUI

@@ -10,7 +10,7 @@
 
 ## Overview
 
-This repository contains code and resources for solving the *Former* game (NRK, 2024) as part of my Master's thesis in Industrial Mathematics. This includes a GUI that anyone can use to play the game, with recommendations from our best-performing Monte Carlo Tree Search solver. Instructions on how to setup a matching environment, install dependencies, compile the C++ code and running the GUI are included below.
+This repository contains code and resources for solving the *Former* game (NRK, 2024) as part of my Master's thesis in Industrial Mathematics. This includes a GUI that anyone can use to play the game, with recommendations from our best-performing Monte Carlo Tree Search solver. Instructions on how to set up a matching environment, install dependencies, compile the C++ code and running the GUI are included below.
 
 ## Requirements
 
@@ -20,7 +20,7 @@ This repository contains code and resources for solving the *Former* game (NRK, 
 
 ## Setup
 
-### 1. Create and activate a virtual environment
+### 1. Create and activate a matching virtual environment
 
 ```bash
 python3.12 -m venv venv

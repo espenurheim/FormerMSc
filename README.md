@@ -63,7 +63,23 @@ cd ..
 python PLAY_FORMER.py
 ```
 
+## Repository structure
+
+```
+FormerMSc/
+├── Former/
+├── models/
+├── results/
+├── search/
+├── PLAY_FORMER.py
+└── README.md
+```
+
+
 ## Contents
+
+### Former
+
 
 ### Models
 
@@ -71,7 +87,9 @@ python PLAY_FORMER.py
 * **Supervised Learning:** `supervised_functions.py`, `supervised_hyper.py`, `supervised_networks.py`, `supervised.ipynb`
 * **PPO:** `PPO_classes.py`, `PPO_train.py`, `PPO.ipynb`
 
-### Search techniques
+### Results
+
+### Search
 
 * **MCTS:** `MCTS.py`
 * **Beam Search:** `beam_search.py`
@@ -84,30 +102,3 @@ python PLAY_FORMER.py
 ### Comparing Implementations
 
 * **C++ vs Python:** `compare_cpp_py.ipynb`
-
-## Full repository structure
-
-```
-├── Cpp_code/                # C++ source, bindings, and setup files
-├── figures/                 # Thesis figures
-├── models/                  # Trained ML models (both from supervised learning and PPO)
-├── results/                 # CSV and pickle results for plotting
-├── GUI_functions.py         # GUI-relevant functions and classes
-├── PLAY_FORMER.py           # Run Former GUI
-├── heuristics.py            # Heuristic implementations
-├── heuristics.ipynb         # Heuristics analysis notebook
-├── supervised.ipynb         # Supervised learning (SL) analysis notebook
-├── supervised_functions.py  # SL helper functions
-├── supervised_hyper.py      # SL hyperparameter tuning implementation
-├── supervised_networks.py   # SL network implementation
-├── PPO_classes.py           # Gymnasium environments and classes for PPO
-├── PPO_train.py             # PPO training script (ran on Idun, so may need fixing)
-├── PPO.ipynb                # PPO analysis notebook
-├── MCTS.py                  # Monte Carlo Tree Search implementation
-├── beam_search.py           # Beam search implementation
-├── figure_functions.py      # Plotting helper functions
-├── figures.py               # Script to generate thesis figures
-├── compare_cpp_py.ipynb     # Compare C++ vs Python implementations
-├── requirements_GUI.txt     # GUI dependencies
-└── requirements.txt         # All project dependencies
-```

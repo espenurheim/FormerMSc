@@ -46,7 +46,7 @@ source venv/bin/activate     # macOS/Linux
 ```
 ├── Cpp_code/                # C++ source, bindings, and setup files
 ├── figures/                 # Thesis figures
-├── models/                  # Trained ML models
+├── models/                  # Trained ML models (both from supervised learning and PPO)
 ├── results/                 # CSV and pickle results for plotting
 ├── GUI_functions.py         # GUI-relevant functions and classes
 ├── PLAY_FORMER.py           # Run Former GUI
@@ -57,7 +57,7 @@ source venv/bin/activate     # macOS/Linux
 ├── supervised_hyper.py      # SL hyperparameter tuning implementation
 ├── supervised_networks.py   # SL network implementation
 ├── PPO_classes.py           # Gymnasium environments and classes for PPO
-├── PPO_train.py             # PPO training script
+├── PPO_train.py             # PPO training script (ran on Idun, so may need fixing)
 ├── PPO.ipynb                # PPO analysis notebook
 ├── MCTS.py                  # Monte Carlo Tree Search implementation
 ├── beam_search.py           # Beam search implementation

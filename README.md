@@ -25,7 +25,7 @@ git clone https://github.com/espenurheim/FormerMSc.git
 cd FormerMSc
 ```
 
-Then run the following steps. Steps 1-3 are required for running any code, and Step 4 is the GUI - if the user is looking to play our implementation.
+Then do the following steps. Steps 1-3 are required for running any code, and Step 4 is the GUI - if the user is looking to play our implementation.
 
 ### 1. Create and activate a matching virtual environment
 

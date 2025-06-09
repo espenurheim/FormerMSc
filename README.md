@@ -19,6 +19,7 @@ This repository contains code and resources for solving the *Former* game (NRK, 
 * pybind11
 
 ## Setup
+Steps 1-3 are required for running any code. Step 4 is the GUI - if the user is looking to play out implementation.
 
 ### 1. Create and activate a matching virtual environment
 
@@ -55,23 +56,25 @@ cd -
 python PLAY_FORMER.py
 ```
 
-## Models
+## Contents
+
+### Models
 
 * **Heuristics:** `heuristics.py`, `heuristics.ipynb`
 * **Supervised Learning:** `supervised_functions.py`, `supervised_hyper.py`, `supervised_networks.py`, `supervised.ipynb`
 * **PPO:** `PPO_classes.py`, `PPO_train.py`, `PPO.ipynb`
 
-## Search techniques
+### Search techniques
 
 * **MCTS:** `MCTS.py`
 * **Beam Search:** `beam_search.py`
 
-## Plotting
+### Plotting
 
 * **Helper functions:** `figure_functions.py`
 * **Generate figures:** `figures.py`
 
-## Comparing Implementations
+### Comparing Implementations
 
 * **C++ vs Python:** `compare_cpp_py.ipynb`
 

@@ -80,7 +80,6 @@ FormerMSc/
 
 ### Former
 
-
 ### Models
 
 * **Heuristics:** `heuristics.py`, `heuristics.ipynb`
@@ -102,3 +101,4 @@ FormerMSc/
 ### Comparing Implementations
 
 * **C++ vs Python:** `compare_cpp_py.ipynb`
+

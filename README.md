@@ -41,7 +41,41 @@ source venv/bin/activate     # macOS/Linux
   pip install -r requirements.txt
   ```
 
-## Repository structure
+### 3. Building the C++ game implementation extension
+
+```bash
+cd Cpp_code
+python setup.py build_ext --inplace
+cd -
+```
+
+### 4. Running the GUI
+
+```bash
+python PLAY_FORMER.py
+```
+
+## Models
+
+* **Heuristics:** `heuristics.py`, `heuristics.ipynb`
+* **Supervised Learning:** `supervised_functions.py`, `supervised_hyper.py`, `supervised_networks.py`, `supervised.ipynb`
+* **PPO:** `PPO_classes.py`, `PPO_train.py`, `PPO.ipynb`
+
+## Search techniques
+
+* **MCTS:** `MCTS.py`
+* **Beam Search:** `beam_search.py`
+
+## Plotting
+
+* **Helper functions:** `figure_functions.py`
+* **Generate figures:** `figures.py`
+
+## Comparing Implementations
+
+* **C++ vs Python:** `compare_cpp_py.ipynb`
+
+## Full repository structure
 
 ```
 ├── Cpp_code/                # C++ source, bindings, and setup files
@@ -67,37 +101,3 @@ source venv/bin/activate     # macOS/Linux
 ├── requirements_GUI.txt     # GUI dependencies
 └── requirements.txt         # All project dependencies
 ```
-
-## Building the C++ game implementation extension
-
-```bash
-cd Cpp_code
-python setup.py build_ext --inplace
-cd -
-```
-
-## Running the GUI
-
-```bash
-python PLAY_FORMER.py
-```
-
-## Models
-
-* **Heuristics:** `heuristics.py`, `heuristics.ipynb`
-* **Supervised Learning:** `supervised_functions.py`, `supervised_hyper.py`, `supervised_networks.py`, `supervised.ipynb`
-* **PPO:** `PPO_classes.py`, `PPO_train.py`, `PPO.ipynb`
-
-## Search Techniques
-
-* **MCTS:** `MCTS.py`
-* **Beam Search:** `beam_search.py`
-
-## Plotting
-
-* **Helper functions:** `figure_functions.py`
-* **Generate figures:** `figures.py`
-
-## Comparing Implementations
-
-* **C++ vs Python:** `compare_cpp_py.ipynb`

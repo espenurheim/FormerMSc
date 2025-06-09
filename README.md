@@ -19,7 +19,7 @@ This repository contains code and resources for solving the *Former* game (NRK, 
 * pybind11
 
 ## Setup
-Steps 1-3 are required for running any code. Step 4 is the GUI - if the user is looking to play out implementation.
+Steps 1-3 are required for running any code. Step 4 is the GUI - if the user is looking to play our implementation.
 
 ### 1. Create and activate a matching virtual environment
 

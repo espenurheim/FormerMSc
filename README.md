@@ -79,26 +79,21 @@ FormerMSc/
 ## Contents
 
 ### Former
-
+Game implementation and other helper functions. The `Cpp_code` folder holds all C++ code, bindings and setup. `GUI_functions.py` holds functions for the GUI, `compare_cpp_py.ipynb` has code to compare Python and C++ implementations, `daily_boards.py` holds function to load daily boards from `daily_boards.pkl`, and `descriptive_statistics.ipynb` is used for analysis of the game itself.
 
 ### Models
+The `models` folder holds all code for the three models we use to predict based on boards: heuristics, supervised learning, and PPO. It also holds the trained models in the `trained_models` directory.
 
 * **Heuristics:** `heuristics.py`, `heuristics.ipynb`
 * **Supervised Learning:** `supervised_functions.py`, `supervised_hyper.py`, `supervised_networks.py`, `supervised.ipynb`
 * **PPO:** `PPO_classes.py`, `PPO_train.py`, `PPO.ipynb`
 
 ### Results
+The `results` folder has all CSV results, figures, and plotting functions.
 
 ### Search
+The `search` folder has all code relevant to the implementation and use of MCTS and beam search.
 
-* **MCTS:** `MCTS.py`
-* **Beam Search:** `beam_search.py`
 
-### Plotting
-
-* **Helper functions:** `figure_functions.py`
-* **Generate figures:** `figures.py`
-
-### Comparing Implementations
-
-* **C++ vs Python:** `compare_cpp_py.ipynb`
+### *Former* GUI
+The `PLAY_FORMER.py` is run to play our GUI implementation, after following the steps given earlier.

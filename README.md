@@ -1,4 +1,4 @@
-# Solving Former with Machine Learning Techniques
+# Solving *Former* with Machine Learning Techniques
 
 **Author:** Espen Bjørge Urheim
 
@@ -10,7 +10,7 @@
 
 ## Overview
 
-This repository contains code and resources for solving the Former game as part of my Master's thesis in Industrial Mathematics.
+This repository contains code and resources for solving the *Former* game (NRK, 2024) as part of my Master's thesis in Industrial Mathematics. This includes a GUI that anyone can use to play the game, with recommendations from our best-performing Monte Carlo Tree Search solver.
 
 ## Requirements
 
@@ -44,29 +44,31 @@ source venv/bin/activate     # macOS/Linux
 ## Repository structure
 
 ```
-├── Cpp_code/              # C++ source, bindings, and setup files
-├── figures/               # Thesis figures
-├── models/                # Trained ML models
-├── results/               # CSV and pickle results for plotting
-├── GUI_functions.py       # Core GUI logic
-├── PLAY_FORMER.py         # Entry point for the Former game GUI
-├── heuristics.py          # Heuristic-based strategies
-├── heuristics.ipynb       # Heuristics analysis notebook
-├── supervised_*.py        # Supervised learning implementations
-├── supervised.ipynb       # Supervised learning analysis notebook
-├── PPO_classes.py         # Gymnasium environments and classes for PPO
-├── PPO_train.py           # PPO training script
-├── PPO.ipynb              # PPO analysis notebook
-├── MCTS.py                # Monte Carlo Tree Search implementation
-├── beam_search.py         # Beam search implementation
-├── figure_functions.py    # Plotting helper functions
-├── figures.py             # Script to generate thesis figures
-├── compare_cpp_py.ipynb   # Compare C++ vs Python implementations
-├── requirements_GUI.txt   # GUI dependencies
-└── requirements.txt       # All project dependencies
+├── Cpp_code/                # C++ source, bindings, and setup files
+├── figures/                 # Thesis figures
+├── models/                  # Trained ML models
+├── results/                 # CSV and pickle results for plotting
+├── GUI_functions.py         # GUI-relevant functions and classes
+├── PLAY_FORMER.py           # Run Former GUI
+├── heuristics.py            # Heuristic implementations
+├── heuristics.ipynb         # Heuristics analysis notebook
+├── supervised.ipynb         # Supervised learning (SL) analysis notebook
+├── supervised_functions.py  # SL helper functions
+├── supervised_hyper.py      # SL hyperparameter tuning implementation
+├── supervised_networks.py   # SL network implementation
+├── PPO_classes.py           # Gymnasium environments and classes for PPO
+├── PPO_train.py             # PPO training script
+├── PPO.ipynb                # PPO analysis notebook
+├── MCTS.py                  # Monte Carlo Tree Search implementation
+├── beam_search.py           # Beam search implementation
+├── figure_functions.py      # Plotting helper functions
+├── figures.py               # Script to generate thesis figures
+├── compare_cpp_py.ipynb     # Compare C++ vs Python implementations
+├── requirements_GUI.txt     # GUI dependencies
+└── requirements.txt         # All project dependencies
 ```
 
-## Building the C++ Extension
+## Building the C++ game implementation extension
 
 ```bash
 cd Cpp_code
@@ -83,7 +85,7 @@ python PLAY_FORMER.py
 ## Models
 
 * **Heuristics:** `heuristics.py`, `heuristics.ipynb`
-* **Supervised Learning:** `supervised_*.py`, `supervised.ipynb`
+* **Supervised Learning:** `supervised_functions.py`, `supervised_hyper.py`, `supervised_networks.py`, `supervised.ipynb`
 * **PPO:** `PPO_classes.py`, `PPO_train.py`, `PPO.ipynb`
 
 ## Search Techniques
@@ -99,7 +101,3 @@ python PLAY_FORMER.py
 ## Comparing Implementations
 
 * **C++ vs Python:** `compare_cpp_py.ipynb`
-
-## License
-
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.

@@ -1,8 +1,11 @@
 # Solving Former with Machine Learning Techniques
 
 **Author:** Espen Bjørge Urheim
+
 **Supervisor:** Jo Eidsvik
+
 **Program:** Master's Thesis in Applied Physics and Mathematics, Norwegian University of Science and Technology
+
 **Semester:** Spring 2025
 
 ## Overview

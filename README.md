@@ -59,6 +59,7 @@ Only some dependencies are necessary to run the GUI - these are included in the 
   ```
 
 ### 3. Building the C++ game implementation extension
+Run this code in terminal to compile the C++ code in the correct directory.
 
 ```bash
 cd Former/Cpp_code

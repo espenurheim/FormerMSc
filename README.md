@@ -4,18 +4,17 @@
 
 **Supervisor:** Jo Eidsvik
 
-**Program:** Master's Thesis in Applied Physics and Mathematics, Norwegian University of Science and Technology
+**Program:** Master's Thesis in Applied Physics and Mathematics (Industrial Mathematics), Norwegian University of Science and Technology
 
 **Semester:** Spring 2025
 
 ## Overview
 
-This repository contains code and resources for solving the *Former* game (NRK, 2024) as part of my Master's thesis in Industrial Mathematics. This includes a GUI that anyone can use to play the game, with recommendations from our best-performing Monte Carlo Tree Search solver. Instructions on how to set up a matching environment, install dependencies, compile the C++ code and running the GUI are included below.
+This repository contains the code and resources used in my Master's thesis in Industrial Mathematics, which revolved around solving the game *Former* by NRK (2024). This includes a GUI that anyone can use to play the game, with recommendations from our best-performing Monte Carlo Tree Search solver, and other code used. Instructions on how to set up a matching environment, install dependencies, compile the C++ code and running the GUI are included below.
 
 ## Requirements
 
 * Python 3.12.7 (other versions may work, but this is the one we used)
-* Compiler (g++, clang, or MSVC) for building C++ extensions
 * pybind11
 
 ## Setup
@@ -36,6 +35,7 @@ source venv/bin/activate     # macOS/Linux
 ```
 
 ### 2. Install dependencies
+Only some dependencies are necessary to run the GUI - these are included in the `requirements_GUI.txt` file. If you want to test more, choose the `requirements.txt` file.
 
 * **For GUI only:**
 
@@ -89,7 +89,7 @@ The `models` folder holds all code for the three models we use to predict based 
 * **PPO:** `PPO_classes.py`, `PPO_train.py`, `PPO.ipynb`
 
 ### Results
-The `results` folder has all CSV results, figures, and plotting functions.
+The `results` folder has all results obtained stored in CSVs, pickled files, etc. It also has the pdf figures, and plotting functions.
 
 ### Search
 The `search` folder has all code relevant to the implementation and use of MCTS and beam search.

@@ -82,7 +82,7 @@ FormerMSc/
 Game implementation and other helper functions. The `Cpp_code` folder holds all C++ code, bindings and setup. `GUI_functions.py` holds functions for the GUI, `compare_cpp_py.ipynb` has code to compare Python and C++ implementations, `daily_boards.py` holds function to load daily boards from `daily_boards.pkl`, and `descriptive_statistics.ipynb` is used for analysis of the game itself.
 
 ### Models
-The `models` folder holds all code for the three models we use to predict based on boards: heuristics, supervised learning, and PPO. It also holds the trained models in the `trained_models` directory.
+The `models` folder holds all code for the three models we use to predict based on boards: heuristics, supervised learning, and PPO. It also holds the trained models in the `trained_models` directory. Data used to train the data can be provided upon request, but due to the size of these files it is not uploaded here.
 
 * **Heuristics:** `heuristics.py`, `heuristics.ipynb`
 * **Supervised Learning:** `supervised_functions.py`, `supervised_hyper.py`, `supervised_networks.py`, `supervised.ipynb`

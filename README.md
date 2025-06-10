@@ -17,7 +17,7 @@ This repository contains the code and resources used in my Master's thesis in In
 * Python 3.12.7 (other versions that are at least 3.10 or newer may work, but this is the one we used)
 
 ## Step-by-step guide to download and use the GUI
-If not already done, clone the repository by opening up a terminal and running 
+If not already done, clone the repository by opening up a terminal, navigating the the directory where you want the download to appear, and running 
 ```bash
 git clone https://github.com/espenurheim/FormerMSc.git
 cd FormerMSc
@@ -26,7 +26,7 @@ Ensure that the correct Python version is installed by observing the output afte
 ```bash
 python3 --version
 ```
-Version 3.12.7 or newer will work, versions 3.10-3.11 may work, and versions older than 3.10 will not work.
+Version 3.12 or newer will work, versions 3.10-3.11 may work, and versions older than 3.10 will not work.
 
 Then do the following steps. Steps 1-3 are required for running any code, and Step 4 is the GUI - if the user is looking to play our implementation.
 
@@ -34,13 +34,13 @@ Then do the following steps. Steps 1-3 are required for running any code, and St
 
 For MacOS/Linux:
 ```bash
-python3.12 -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 ```
 
 For Windows PowerShell:
 ```bash
-python3.12 -m venv venv
+python3 -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
 

@@ -15,9 +15,8 @@ This repository contains the code and resources used in my Master's thesis in In
 ## Requirements
 
 * Python 3.12.7 (other versions may work, but this is the one we used)
-* pybind11
 
-## Setup
+## Step-by-step guide to download and use the GUI
 If not already done, clone the repository by opening up a terminal and running 
 ```bash
 git clone https://github.com/espenurheim/FormerMSc.git

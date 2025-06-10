@@ -27,10 +27,16 @@ Then do the following steps. Steps 1-3 are required for running any code, and St
 
 ### 1. Create and activate a matching virtual environment
 
+For MacOS/Linux:
 ```bash
 python3.12 -m venv venv
-source venv/bin/activate     # macOS/Linux
-.\venv\Scripts\Activate.ps1  # Windows PowerShell
+source venv/bin/activate
+```
+
+For Windows PowerShell:
+```bash
+python3.12 -m venv venv
+.\venv\Scripts\Activate.ps1
 ```
 
 ### 2. Install dependencies

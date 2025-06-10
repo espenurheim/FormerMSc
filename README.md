@@ -14,7 +14,7 @@ This repository contains the code and resources used in my Master's thesis in In
 
 ## Requirements
 
-* Python 3.12.7 (other versions that are at least 3.10 or newer may work, but this is the one we used)
+* Python 3.12.7 (other versions that are at least 3.10 or newer may work, but 3.12.7 is the one we used)
 
 ## Step-by-step guide to download and use the GUI
 If not already done, clone the repository by opening up a terminal, navigating the the directory where you want the download to appear, and running 

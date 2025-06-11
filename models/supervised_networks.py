@@ -19,6 +19,7 @@ from Former.Cpp_code.former_class_cpp import FormerGame
 import os
 from tqdm import tqdm
 import csv
+from pathlib import Path
 
 class NetworkDataset(Dataset):
     """
@@ -431,48 +432,58 @@ def train_policy_net(model,
 
     return train_policy_losses, val_policy_losses
 
-# LOAD ALL NETWORKS
-# LOAD ALL NETS
+
+# Compute project root based on this file's location
+THIS_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = THIS_DIR.parent
+
+# Base directory where pretrained weights are stored
+WEIGHTS_DIR = PROJECT_ROOT / "models" / "trained_models" / "supervised"
+
+# Ensure WEIGHTS_DIR exists for sanity
+if not WEIGHTS_DIR.exists():
+    raise FileNotFoundError(f"Weights directory not found: {WEIGHTS_DIR}")
+
+
 def load_networks():
     """
-    Load all networks and return them in a dictionary.
+    Load all value and policy networks and return them in a dict with custom keys:
+      - 'v_<name>' for value networks
+      - 'pi_<name>' for policy networks
     """
-    
-    # Value
-    v_w32d5 = ValueNet(5, (9,7), 5, 32)
-    v_w32d5.load_state_dict(torch.load("models/supervised/value/w32d5/w32d5.pth", torch.device("cpu")))
-    v_w32d5.eval()
-    v_w32d10 = ValueNet(5, (9,7), 10, 32)
-    v_w32d10.load_state_dict(torch.load("models/supervised/value/w32d10/w32d10.pth", torch.device("cpu")))
-    v_w32d10.eval()
-    v_w64d5 = ValueNet(5, (9,7), 5, 64)
-    v_w64d5.load_state_dict(torch.load("models/supervised/value/w64d5/w64d5.pth", torch.device("cpu")))
-    v_w64d5.eval()
-    v_w64d10 = ValueNet(5, (9,7), 10, 64)
-    v_w64d10.load_state_dict(torch.load("models/supervised/value/w64d10/w64d10.pth", torch.device("cpu")))
-    v_w64d10.eval()
-    # Policy
-    pi_w32d5 = PolicyNet(5, (9,7), 5, 32)
-    pi_w32d5.load_state_dict(torch.load("models/supervised/policy/w32d5/w32d5.pth", torch.device("cpu")))
-    pi_w32d5.eval()
-    pi_w32d10 = PolicyNet(5, (9,7), 10, 32)
-    pi_w32d10.load_state_dict(torch.load("models/supervised/policy/w32d10/w32d10.pth", torch.device("cpu")))
-    pi_w32d10.eval()
-    pi_w64d5 = PolicyNet(5, (9,7), 5, 64)
-    pi_w64d5.load_state_dict(torch.load("models/supervised/policy/w64d5/w64d5.pth", torch.device("cpu")))
-    pi_w64d5.eval()
-    pi_w64d10 = PolicyNet(5, (9,7), 10, 64)
-    pi_w64d10.load_state_dict(torch.load("models/supervised/policy/w64d10/w64d10.pth", torch.device("cpu")))
-    pi_w64d10.eval()
-    
-    nets = {
-        "v_w32d5": v_w32d5,
-        "v_w32d10": v_w32d10,
-        "v_w64d5": v_w64d5,
-        "v_w64d10": v_w64d10,
-        "pi_w32d5": pi_w32d5,
-        "pi_w32d10": pi_w32d10,
-        "pi_w64d5": pi_w64d5,
-        "pi_w64d10": pi_w64d10
-    }
+    nets = {}
+
+    # Specifications: (folder_name, depth, width)
+    value_specs = [
+        ("w32d5", 5, 32),
+        ("w32d10", 10, 32),
+        ("w64d5", 5, 64),
+        ("w64d10", 10, 64),
+    ]
+    # Load value networks
+    for name, depth, width in value_specs:
+        net = ValueNet(5, (9,7), depth, width)
+        path = WEIGHTS_DIR / "value" / name / f"{name}.pth"
+        state = torch.load(path, map_location=torch.device("cpu"))
+        net.load_state_dict(state)
+        net.eval()
+        nets[f"v_{name}"] = net
+
+    # Specifications for policy networks
+    policy_specs = [
+        ("w32d5", 5, 32),
+        ("w32d10", 10, 32),
+        ("w64d5", 5, 64),
+        ("w64d10", 10, 64),
+    ]
+    # Load policy networks
+    for name, depth, width in policy_specs:
+        net = PolicyNet(5, (9,7), depth, width)
+        path = WEIGHTS_DIR / "policy" / name / f"{name}.pth"
+        state = torch.load(path, map_location=torch.device("cpu"))
+        net.load_state_dict(state)
+        net.eval()
+        nets[f"pi_{name}"] = net
+
     return nets
+

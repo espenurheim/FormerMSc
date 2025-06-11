@@ -1,14 +1,16 @@
-import numpy as np
 import pickle
-        
-def get_daily_board(date = None):
- 
-    # Load the daily boards from a file
-    with open('daily_boards.pkl', 'rb') as f:
+from pathlib import Path
+
+def get_daily_board(date=None):
+    """
+    Load the dict of daily boards from daily_boards.pkl (sitting
+    next to this file), and optionally return just one date.
+    """
+    pkl_path = Path(__file__).resolve().parent / 'daily_boards.pkl'
+    with pkl_path.open('rb') as f:
         daily_boards = pickle.load(f)
-        
+
     if date is None:
         return daily_boards
-    
-    # Get the daily board for the specified date
-    return daily_boards.get(date, None)
+
+    return daily_boards.get(date)

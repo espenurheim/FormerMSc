@@ -17,6 +17,7 @@ from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 import gymnasium as gym
 from gymnasium import spaces
 from gymnasium.utils import seeding
+from pathlib import Path
 
 # Extract features, input into PPO
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
@@ -253,30 +254,34 @@ def get_policy_PPO(board, model):
     # Return probability dictionary
     return prob_dict
 
+# Base directory for reinforcement pretrained weights
+THIS_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = THIS_DIR.parent
+REINFORCEMENT_DIR = PROJECT_ROOT / "models" / "trained_models" / "reinforcement"
+if not REINFORCEMENT_DIR.exists():
+    raise FileNotFoundError(f"Reinforcement weights directory not found: {REINFORCEMENT_DIR}")
+
 def load_ppo_models():
     """
-    Load the PPO models for use in the game.
+    Load the PPO actor and critic models and return them in a dict:
+      - 'actor_large', 'critic_large', 'actor_small', 'critic_small'
     """
-    device = "cpu"
-    actor_large = torch.jit.load("models/trained_models/reinforcement/scripted_actor.pt", map_location=device)
-    actor_large.eval()
-    
-    critic_large = torch.jit.load("models/trained_models/reinforcement/scripted_critic.pt", map_location=device)
-    critic_large.eval()
-    
-    actor_small = torch.jit.load("models/trained_models/reinforcement/scripted_actor_small.pt", map_location=device)
-    actor_small.eval()
-    
-    critic_small = torch.jit.load("models/trained_models/reinforcement/scripted_critic_small.pt", map_location=device)
-    critic_small.eval()
-    
-    ppo_nets = {
-        "actor_large": actor_large,
-        "critic_large": critic_large,
-        "actor_small": actor_small,
-        "critic_small": critic_small,
-    }
-    
+    device = torch.device("cpu")
+    ppo_nets = {}
+
+    # Actor and Critic specs: (filename, key)
+    specs = [
+        ("scripted_actor.pt",        "actor_large"),
+        ("scripted_critic.pt",       "critic_large"),
+        ("scripted_actor_small.pt",  "actor_small"),
+        ("scripted_critic_small.pt", "critic_small"),
+    ]
+    for filename, key in specs:
+        path = REINFORCEMENT_DIR / filename
+        model = torch.jit.load(path, map_location=device)
+        model.eval()
+        ppo_nets[key] = model
+
     return ppo_nets
 
 def get_recommended_action_ppo(board, model, type='actor'):

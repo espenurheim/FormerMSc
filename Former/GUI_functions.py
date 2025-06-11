@@ -133,117 +133,122 @@ policy_net_w64d10.eval()
 
 print("Loaded network successfully.")
 
+import sys
+import pygame
+from pathlib import Path
+import Former.daily_board as db
+
 def select_board(window_width=400, window_height=600, font_size=24, padding=10):
     """
-    Opens a Pygame window listing all daily‐board dates plus a "Custom board" option.
+    Open a Pygame window listing all daily‐board dates (and a "Custom board" entry).
     Returns (board_array or None, display_date, best_display_str).
     """
-    # 1) Fetch and format the daily boards
-    daily_dict = db.get_daily_board()  # e.g. {"jan27": (board, best, _), ...}
+    # 1) Build and sort the list of entries
+    daily = db.get_daily_board()  # {'jan27': (board, best, _), …}
+    month_map = {'jan':'January','feb':'February','mar':'March',
+                 'apr':'April','may':'May'}
     entries = []
-    for key, (board_arr, best_sol, _extra) in daily_dict.items():
-        best_display = f"{best_sol:.2f}" if isinstance(best_sol, float) else str(best_sol)
-        m_abbr = key[:3].lower()
-        day    = int(key[3:])
-        month_map = {
-            'jan':'January','feb':'February','mar':'March',
-            'apr':'April','may':'May'
-        }
-        full_month  = month_map.get(m_abbr, m_abbr.capitalize())
-        display_date = f"{full_month} {day}"
-        entries.append((key, board_arr, best_display, display_date))
+    for key, (board, best, _) in daily.items():
+        # Format “best” for display
+        best_str = f"{best:.2f}" if isinstance(best, float) else str(best)
+        # Turn "jan27" → "January 27"
+        abbr, day = key[:3].lower(), int(key[3:])
+        month = month_map.get(abbr, abbr.capitalize())
+        display_date = f"{month} {day}"
+        entries.append((key, board, best_str, display_date))
 
-    # 2) Sort by calendar order
-    month_order = {'jan':1,'feb':2,'mar':3,'apr':4,'may':5}
-    def sort_key(item):
-        m = item[0][:3].lower()
-        d = int(item[0][3:])
-        return month_order.get(m, 99), d
-    entries.sort(key=sort_key)
+    # Sort by month then day
+    month_order = {m: i for i, m in enumerate(month_map, start=1)}
+    entries.sort(key=lambda e: (month_order.get(e[0][:3].lower(), 99), int(e[0][3:])))
+    # Finally, allow a “Custom board” option
+    entries.append(('custom', None, '', 'Custom board'))
 
-    # 3) Append "Custom board"
-    entries.append(("custom", None, "", "Custom board"))
-
-    # ─────────────────────────────────────────────────────────────
-    #  Pygame UI loop
-    # ─────────────────────────────────────────────────────────────
+    # 2) Set up Pygame UI
     pygame.init()
     screen = pygame.display.set_mode((window_width, window_height))
     pygame.display.set_caption("Select a Daily Board")
     clock = pygame.time.Clock()
     font = pygame.font.SysFont(None, font_size)
-    line_height = font_size + 6
-    top_margin = padding*2 + font_size
-    available_height = window_height - top_margin - padding
-    max_visible = max(1, available_height // line_height)
-    scroll_top = 0
 
-    selected_idx = None
+    line_h = font_size + 6
+    top_y = padding*2 + font_size
+    avail_h = window_height - top_y - padding
+    max_visible = max(1, avail_h // line_h)
+    scroll = 0
+
     def clamp(idx):
         return max(0, min(idx, len(entries) - max_visible))
 
-    while selected_idx is None:
+    selected = None
+    while selected is None:
         clock.tick(30)
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             elif ev.type == pygame.MOUSEWHEEL:
-                scroll_top = clamp(scroll_top - ev.y)
+                scroll = clamp(scroll - ev.y)
             elif ev.type == pygame.MOUSEBUTTONDOWN:
+                # Mouse wheel up/down
                 if ev.button in (4, 5):
-                    scroll_top = clamp(scroll_top + (1 if ev.button==5 else -1))
+                    scroll = clamp(scroll + (1 if ev.button == 5 else -1))
                 else:
                     mx, my = ev.pos
-                    if top_margin <= my < top_margin + max_visible*line_height:
-                        idx = scroll_top + (my - top_margin)//line_height
+                    # Check clicks inside the list area
+                    if top_y <= my < top_y + max_visible*line_h:
+                        idx = scroll + (my - top_y) // line_h
                         if 0 <= idx < len(entries):
-                            selected_idx = idx
+                            selected = idx
                             break
 
-        screen.fill((240,240,240))
-        title_surf = font.render("Choose a date:", True, (0,0,0))
-        screen.blit(title_surf, (padding, padding))
+        # Draw background and header
+        screen.fill((240, 240, 240))
+        header = font.render("Choose a date:", True, (0, 0, 0))
+        screen.blit(header, (padding, padding))
 
+        # Draw each visible entry
         for i in range(max_visible):
-            gi = scroll_top + i
-            if gi >= len(entries): break
-            _, _, best_disp, disp_date = entries[gi]
-            y = top_margin + i*line_height
-            rect = pygame.Rect(padding, y, window_width-2*padding, line_height)
+            gi = scroll + i
+            if gi >= len(entries):
+                break
+            _, _, best_str, date_str = entries[gi]
+            y = top_y + i*line_h
+            rect = pygame.Rect(padding, y, window_width-2*padding, line_h)
+            # Highlight on hover
             if rect.collidepoint(pygame.mouse.get_pos()):
-                pygame.draw.rect(screen, (200,200,255), rect)
-            screen.blit(font.render(disp_date, True, (0,0,0)), (padding+4, y+2))
-            if best_disp:
-                suf = font.render(f"(best: {best_disp} moves)", True, (50,50,50))
+                pygame.draw.rect(screen, (200, 200, 255), rect)
+            screen.blit(font.render(date_str, True, (0, 0, 0)), (padding+4, y+2))
+            if best_str:
+                suf = font.render(f"(best: {best_str} moves)", True, (50, 50, 50))
                 screen.blit(suf, (window_width-padding - suf.get_width(), y+2))
 
+        # If list is longer than the view, draw a scrollbar
         if len(entries) > max_visible:
-            h = int(available_height * (max_visible/len(entries)))
-            y0 = top_margin + int((available_height-h)*(scroll_top/(len(entries)-max_visible)))
-            bar = pygame.Rect(window_width - padding//2, y0, padding//2, h)
-            pygame.draw.rect(screen, (150,150,150), bar)
+            bar_h = int(avail_h * (max_visible/len(entries)))
+            bar_y = top_y + int((avail_h - bar_h) * (scroll/(len(entries)-max_visible)))
+            bar = pygame.Rect(window_width - padding//2, bar_y, padding//2, bar_h)
+            pygame.draw.rect(screen, (150, 150, 150), bar)
 
         pygame.display.flip()
 
     pygame.quit()
+    # Unpack and return the chosen entry
+    _, board_arr, best_str, date_str = entries[selected]
+    return board_arr, date_str, best_str
 
-    # unpack the chosen entry
-    _, board_arr, best_disp, disp_date = entries[selected_idx]
-    return board_arr, disp_date, best_disp
 
 def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
     """
-    Plays Former with MCTS suggestions under a time limit.
-    Displays:
-     - Moves used
-     - Best known solution
-     - Suggestion: "MCTS suggests: Group X (max. Y moves)"
-     - Time‐limit input & Search button (moved up)
-     - Reset button at bottom to restart the board
-    """
+    Launches a Pygame interface for Former with MCTS suggestions under a time limit.
 
-    # Make board
+    Displays:
+      - Moves used
+      - Best known solution
+      - MCTS suggestion text: “Group X (max. Y moves)”
+      - Time‐limit input box + Search button
+      - Reset button to restart the board
+    """
+    # initialize Pygame and compute layout
     pygame.init()
     cell_size = 60
     board_w = N * cell_size
@@ -253,6 +258,7 @@ def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
     pygame.display.set_caption("FormerGame")
     clock = pygame.time.Clock()
 
+    # color mapping for board values and grid lines
     colors = {
         -1: (0, 0, 0),
          0: (255, 20, 147),
@@ -262,10 +268,12 @@ def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
     }
     grid_c = (50, 50, 50)
 
+    # helper to reset the game to the initial board
     def new_game():
         return FormerGame(M, N, S, custom_board=board)
     game = new_game()
 
+    # fonts for various text elements
     stats_font = pygame.font.SysFont(None, 18)
     title_font = pygame.font.SysFont(None, 28)
     small_font = pygame.font.SysFont(None, 18)
@@ -273,7 +281,7 @@ def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
     name_x = board_w + 10
     padding = 10
 
-    # Time‐limit UI
+    # set up input and button rectangles
     label_text = "Time limit for MCTS:"
     label_w = stats_font.size(label_text)[0]
     input_box = pygame.Rect(
@@ -286,7 +294,6 @@ def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
         input_box.y,
         80, 30
     )
-    # Reset button at bottom
     reset_button = pygame.Rect(
         name_x,
         board_h - 40 - padding,
@@ -296,13 +303,13 @@ def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
     time_text = ""
     active_input = False
 
-    # Suggestion state
+    # state for MCTS suggestions
     suggestion_actions = None
-    suggestion_idx     = 0
-    suggestion_rem     = None
+    suggestion_idx = 0
+    suggestion_rem = None
     search_in_progress = False
 
-    # MCTS parameters
+    # MCTS configuration parameters
     mcts_params = {
         "num_simulations": 1000,
         "c_puct": 10,
@@ -312,29 +319,34 @@ def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
         "Q_type": "avg",
         "use_prior": True
     }
+
+    # try to parse best_known as a float
     try:
         best_sol_num = float(best_known)
-    except:
+    except ValueError:
         best_sol_num = None
 
-    # Called each time the player clicks on "search".
+    # runs MCTS in a background thread when Search is clicked
     def run_mcts_search(board_state, t_lim):
         nonlocal suggestion_actions, suggestion_idx, suggestion_rem, search_in_progress
         search_in_progress = True
+
         mcts = MCTS(
             board_state, None,
             policy_net_w64d10, mcts_params,
-            True, best_sol=0, # Must be set to 0 - otherwise the search stops immediately if search is called in later boards
+            True, best_sol=0,  # avoid immediate stop on repeated calls
             policy_type='network'
         )
         sol_lens, times, actions, n_sims = mcts.search_with_time_limit(t_lim)
+
         if actions:
             suggestion_actions = actions
-            suggestion_idx     = 0
-            suggestion_rem     = sol_lens[-1]
+            suggestion_idx = 0
+            suggestion_rem = sol_lens[-1]
         else:
             suggestion_actions = None
-            suggestion_rem     = None
+            suggestion_rem = None
+
         search_in_progress = False
 
     running = True
@@ -350,7 +362,7 @@ def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
                 mx, my = ev.pos
                 active_input = input_box.collidepoint((mx, my))
 
-                # Search button clicked
+                # Search button logic
                 if search_button.collidepoint((mx, my)):
                     try:
                         t_lim = float(time_text)
@@ -362,31 +374,30 @@ def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
                                 daemon=True
                             ).start()
                     except ValueError:
-                        pass
+                        pass  # ignore invalid input
                     time_text = ""
                     active_input = False
 
-                # Reset button clicked
+                # Reset button logic
                 if reset_button.collidepoint((mx, my)):
                     game = new_game()
                     action_count = 0
                     suggestion_actions = None
-                    suggestion_idx     = 0
-                    suggestion_rem     = None
+                    suggestion_idx = 0
+                    suggestion_rem = None
 
-                # Board click
+                # Board click logic
                 if mx < board_w:
                     r, c = my // cell_size, mx // cell_size
                     if (0 <= r < M and 0 <= c < N and
                         game.board[r][c] != -1):
-                        # snapshot group before removal
-                        old_board     = game.get_board()
+                        old_board = game.get_board()
                         clicked_group = FormerGame.find_group_static(old_board, (r, c))
 
                         action_count += 1
                         game.make_turn((r, c))
 
-                        # advance or drop suggestion
+                        # advance or drop suggestion based on click
                         if suggestion_actions and suggestion_idx < len(suggestion_actions):
                             target_rep = suggestion_actions[suggestion_idx]
                             if target_rep in clicked_group:
@@ -394,19 +405,19 @@ def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
                                 suggestion_rem -= 1
                                 if suggestion_idx >= len(suggestion_actions):
                                     suggestion_actions = None
-                                    suggestion_rem     = None
+                                    suggestion_rem = None
                             else:
                                 suggestion_actions = None
-                                suggestion_rem     = None
+                                suggestion_rem = None
 
+            # Time input typing
             elif ev.type == pygame.KEYDOWN and active_input:
                 if ev.key == pygame.K_BACKSPACE:
                     time_text = time_text[:-1]
-                else:
-                    if ev.unicode.isdigit() or ev.unicode == '.':
-                        time_text += ev.unicode
+                elif ev.unicode.isdigit() or ev.unicode == '.':
+                    time_text += ev.unicode
 
-        # ─── Draw board ────────────────────────────────────────────
+        # ─── Draw the board ─────────────────────────────────────
         screen.fill((255, 255, 255))
         for r in range(M):
             for c in range(N):
@@ -419,9 +430,9 @@ def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
                 pygame.draw.rect(screen, col, rect)
                 pygame.draw.rect(screen, grid_c, rect, 1)
 
-        # ─── Compute and draw group numbers ────────────────────────
+        # ─── Draw group labels ───────────────────────────────────
         groups = game.get_groups()
-        reps   = [min(grp) for grp in groups]
+        reps = [min(grp) for grp in groups]
         rep2id = {rep: idx for idx, rep in enumerate(reps)}
         cell2rep = {}
         for grp in groups:
@@ -439,7 +450,7 @@ def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
                 ))
                 screen.blit(txt, tr)
 
-        # ─── Draw stats panel ──────────────────────────────────────
+        # ─── Draw stats panel ────────────────────────────────────
         pygame.draw.rect(
             screen, (230, 230, 230),
             (board_w, 0, stats_w, board_h)
@@ -459,7 +470,7 @@ def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
             (x0, padding + 50)
         )
 
-        # ─── Draw suggestion ───────────────────────────────────────
+        # ─── Draw MCTS suggestion ────────────────────────────────
         if suggestion_actions and suggestion_idx < len(suggestion_actions):
             nr, nc = suggestion_actions[suggestion_idx]
             group_cells = FormerGame.find_group_static(game.get_board(), (nr, nc))
@@ -474,7 +485,7 @@ def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
                 (x0, padding + 100)
             )
 
-        # ─── Draw time‐limit UI ────────────────────────────────────
+        # ─── Draw time‐limit UI ──────────────────────────────────
         screen.blit(
             stats_font.render(label_text, True, (0, 0, 0)),
             (name_x, input_box.y + 5)
@@ -490,7 +501,7 @@ def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
         sb_rect = sb_txt.get_rect(center=search_button.center)
         screen.blit(sb_txt, sb_rect)
 
-        # ─── Draw Reset button ────────────────────────────────────
+        # ─── Draw Reset button ──────────────────────────────────
         pygame.draw.rect(screen, (180, 180, 180), reset_button)
         rb_txt = stats_font.render("Reset", True, (0, 0, 0))
         rb_rect = rb_txt.get_rect(center=reset_button.center)
@@ -505,6 +516,7 @@ def play_game(M=9, N=7, S=4, board=None, date_str="", best_known=""):
 
     pygame.quit()
     sys.exit()
+
     
     
 # MCTS IMPLEMENTATION

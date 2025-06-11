@@ -1,3 +1,11 @@
+# Move root one step out
+import os
+import sys
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(THIS_DIR, os.pardir))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 import numpy as np
 import pickle
 from Former.Cpp_code.former_class_cpp import FormerGame, heuristic_min_groups_1_look_ahead, heuristic_min_groups_2_look_ahead

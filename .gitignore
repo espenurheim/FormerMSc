@@ -2,7 +2,8 @@
 venv/
 
 # Python bytecode cache in Former
-Former/__pycache__/
+__pycache__/
+*/__pycache__/
 
 # C++ build artifacts in Former/Cpp_code
 Former/Cpp_code/build/

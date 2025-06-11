@@ -15,6 +15,7 @@ This repository contains the code and resources used in my Master's thesis in In
 ## Requirements
 
 * Python 3.12.7 (other versions may work - try by replacing python3.12 with python3, python etc., but they are not guaranteed)
+* C++ 14.0 or greater (compiler)
 
 ## Step-by-step guide to download and use the GUI
 If not already done, clone the repository by opening up a terminal, navigating the the directory where you want the download to appear, and running 

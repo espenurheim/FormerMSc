@@ -1,0 +1,18 @@
+# Virtual environment
+venv/
+
+# Python bytecode cache in Former
+Former/__pycache__/
+
+# C++ build artifacts in Former/Cpp_code
+Former/Cpp_code/build/
+
+# Specific compiled extension
+Former/Cpp_code/former_class_cpp.cpython-312-darwin.so
+
+# macOS Finder files
+.DS_Store
+
+# Editor/project files
+.vscode/
+*.swp

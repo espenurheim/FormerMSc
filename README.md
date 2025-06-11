@@ -14,7 +14,7 @@ This repository contains the code and resources used in my Master's thesis in In
 
 ## Requirements
 
-* Python 3.12.7 (other versions that are at least 3.10 or newer may work, but 3.12.7 is the one we used)
+* Python 3.12.7 (other versions may work - try by replacing python3.12 with python3, python etc., but they are not guaranteed)
 
 ## Step-by-step guide to download and use the GUI
 If not already done, clone the repository by opening up a terminal, navigating the the directory where you want the download to appear, and running 
@@ -24,7 +24,7 @@ cd FormerMSc
 ```
 Ensure that the correct Python version is installed by observing the output after running
 ```bash
-python3 --version
+python3.12 --version
 ```
 Version 3.12 or newer will work, versions 3.10-3.11 may work, and versions older than 3.10 will not work.
 
@@ -34,13 +34,13 @@ Then do the following steps. Steps 1-3 are required for running any code, and St
 
 For MacOS/Linux:
 ```bash
-python3 -m venv venv
+python3.12 -m venv venv
 source venv/bin/activate
 ```
 
 For Windows PowerShell:
 ```bash
-python3 -m venv venv
+python3.12 -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
 
